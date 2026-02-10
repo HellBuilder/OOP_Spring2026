@@ -23,7 +23,7 @@ public class Main {
 
 
 
-        Time t = new Time(26, 45, 70);
+        Time t = new Time(15, 45, 70);
         System.out.println(t.toUniversal());
         
         t.add(2, 17, 40);
