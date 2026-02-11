@@ -27,4 +27,9 @@ public class Student {
     public int getYearOfStudy() {
         return yearOfStudy;
     }
+    
+    public String toString() {
+        return "Student{name='" + name + "', id=" + id + "}";
+    }
+
 }
