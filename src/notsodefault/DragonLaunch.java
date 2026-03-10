@@ -3,6 +3,7 @@ package notsodefault;
 import java.util.Vector;
 
 public class DragonLaunch {
+	
     private Vector<Person> prisoners = new Vector<>();
     
     public void kidnap(Person p) {
