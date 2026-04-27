@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/tmp/university_system/**)",
+      "Bash(javac university/*.java)",
+      "Bash(xargs javac *)",
+      "PowerShell($env:TEMP)",
+      "PowerShell(New-Item *)"
+    ]
+  }
+}
