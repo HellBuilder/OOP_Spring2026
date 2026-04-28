@@ -1,6 +1,7 @@
 package uni_project;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Manager extends Employee implements Observable {
@@ -38,6 +39,37 @@ public class Manager extends Employee implements Observable {
     public void postNews(String news) {
         System.out.println("[NEWS/" + managerType + "] " + news);
         notifyObservers(news);
+    }
+
+    public String createReport() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("=== Academic Performance Report ===\n");
+        University uni = University.getInstance();
+        for (User u : uni.getUsers()) {
+            if (u instanceof Student) {
+                Student s = (Student) u;
+                sb.append(String.format("  %-25s GPA: %.2f  Credits: %d  Fails: %d%n",
+                        s.getFirstName() + " " + s.getLastName(),
+                        s.getGpa(), s.getCredits(), s.getFailCount()));
+            }
+        }
+        System.out.print(sb);
+        return sb.toString();
+    }
+
+    public List<Student> viewStudents(Comparator<Student> sort) {
+        List<Student> result = new ArrayList<>();
+        for (User u : University.getInstance().getUsers()) {
+            if (u instanceof Student) result.add((Student) u);
+        }
+        result.sort(sort);
+        result.forEach(s -> System.out.println("  " + s));
+        return result;
+    }
+
+    public List<String> viewRequests() {
+        System.out.println("[REQUESTS] No pending requests.");
+        return new ArrayList<>();
     }
 
     // ================================================================

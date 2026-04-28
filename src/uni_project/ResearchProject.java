@@ -9,13 +9,13 @@ public class ResearchProject implements Serializable {
     private static final long serialVersionUID = 13L;
 
     private String             projectId;
-    private String             title;
+    private String             topic;
     private List<Researcher>   participants;
     private List<ResearchPaper> publishedPapers;
 
-    public ResearchProject(String projectId, String title) {
+    public ResearchProject(String projectId, String topic) {
         this.projectId      = projectId;
-        this.title          = title;
+        this.topic          = topic;
         this.participants   = new ArrayList<>();
         this.publishedPapers = new ArrayList<>();
     }
@@ -29,30 +29,29 @@ public class ResearchProject implements Serializable {
             throw new NotResearcherException(
                     person.getClass().getSimpleName()
                     + " does not implement Researcher and cannot join project '"
-                    + title + "'.");
+                    + topic + "'.");
         }
         Researcher r = (Researcher) person;
         if (!participants.contains(r)) {
             participants.add(r);
-            System.out.println("[PROJECT] '" + title + "' << "
+            System.out.println("[PROJECT] '" + topic + "' << "
                     + person.getClass().getSimpleName());
         }
     }
 
     public void publishPaper(ResearchPaper paper) {
         publishedPapers.add(paper);
-        // Credit the paper to all participant researchers
         for (Researcher r : participants) {
             if (!r.getPapers().contains(paper)) {
                 r.addPaper(paper);
             }
         }
         System.out.println("[PUBLISH] '" + paper.getTitle()
-                + "' added to project '" + title + "'.");
+                + "' added to project '" + topic + "'.");
     }
 
     public void printSummary() {
-        System.out.println("=== Research Project: " + title + " ===");
+        System.out.println("=== Research Project: " + topic + " ===");
         System.out.println("  Participants : " + participants.size());
         System.out.println("  Papers       : " + publishedPapers.size());
         publishedPapers.stream()
@@ -63,7 +62,7 @@ public class ResearchProject implements Serializable {
     // ---- Getters ----
 
     public String              getProjectId()      { return projectId; }
-    public String              getTitle()          { return title; }
+    public String              getTopic()          { return topic; }
     public List<Researcher>    getParticipants()   { return participants; }
     public List<ResearchPaper> getPublishedPapers() { return publishedPapers; }
 }

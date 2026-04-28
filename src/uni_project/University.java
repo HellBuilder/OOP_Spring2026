@@ -2,6 +2,7 @@ package uni_project;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -86,13 +87,13 @@ public class University implements Serializable {
     // Research analytics
     // ================================================================
 
-    public void printAllPapers() {
-        System.out.println("=== All Research Papers (by citations) ===");
+    public void printAllPapers(Comparator<ResearchPaper> c) {
+        System.out.println("=== All Research Papers ===");
         List<ResearchPaper> all = new ArrayList<>();
         for (Researcher r : researchers) all.addAll(r.getPapers());
         all.stream()
            .distinct()
-           .sorted(ResearchPaper.BY_CITATIONS)
+           .sorted(c)
            .forEach(p -> System.out.println("  " + p));
     }
 
