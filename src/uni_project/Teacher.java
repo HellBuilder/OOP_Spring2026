@@ -1,6 +1,7 @@
 package uni_project;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Teacher extends Employee implements Researcher {
@@ -91,17 +92,20 @@ public class Teacher extends Employee implements Researcher {
     public List<ResearchPaper> getPapers() { return papers; }
 
     @Override
+    public List<ResearchProject> getProjects() { return projects; }
+
+    @Override
     public void addPaper(ResearchPaper paper) {
         papers.add(paper);
         hIndex = ResearcherUtils.computeHIndex(papers);
     }
 
     @Override
-    public void printPapers() {
+    public void printPapers(Comparator<ResearchPaper> c) {
         System.out.println("=== Papers: " + getFirstName() + " " + getLastName()
                 + " (hIndex=" + hIndex + ") ===");
         papers.stream()
-              .sorted(ResearchPaper.BY_CITATIONS)
+              .sorted(c)
               .forEach(p -> System.out.println("  • " + p));
     }
 
@@ -109,9 +113,31 @@ public class Teacher extends Employee implements Researcher {
     // Getters
     // ================================================================
 
-    public TeacherTitle          getTitle()    { return title; }
-    public List<Course>          getCourses()  { return courses; }
-    public double                getRating()   { return rating; }
+    public TeacherTitle          getTitle()       { return title; }
+    public List<Course>          getCourses()     { return courses; }
+    public double                getRating()      { return rating; }
     public int                   getRatingCount() { return ratingCount; }
-    public List<ResearchProject> getProjects() { return projects; }
+
+    // ================================================================
+    // Object
+    // ================================================================
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Teacher)) return false;
+        Teacher t = (Teacher) o;
+        return getEmployeeId().equals(t.getEmployeeId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getEmployeeId().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Teacher[" + getEmployeeId() + ", " + getFirstName() + " " + getLastName()
+                + ", " + title + "]";
+    }
 }

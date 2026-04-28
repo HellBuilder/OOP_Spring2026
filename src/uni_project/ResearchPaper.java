@@ -9,6 +9,7 @@ public class ResearchPaper implements Comparable<ResearchPaper>, Serializable {
 
     private static final long serialVersionUID = 12L;
 
+    private String           paperId;
     private String           title;
     private List<Researcher> authors;
     private String           journal;
@@ -17,8 +18,9 @@ public class ResearchPaper implements Comparable<ResearchPaper>, Serializable {
     private int              citations;
     private int              pages;
 
-    public ResearchPaper(String title, List<Researcher> authors, String journal,
+    public ResearchPaper(String paperId, String title, List<Researcher> authors, String journal,
                          LocalDate date, String doi, int citations, int pages) {
+        this.paperId   = paperId;
         this.title     = title;
         this.authors   = authors;
         this.journal   = journal;
@@ -51,6 +53,7 @@ public class ResearchPaper implements Comparable<ResearchPaper>, Serializable {
 
     // ---- Getters ----
 
+    public String           getPaperId()   { return paperId; }
     public String           getTitle()     { return title; }
     public List<Researcher> getAuthors()   { return authors; }
     public String           getJournal()   { return journal; }
@@ -60,6 +63,21 @@ public class ResearchPaper implements Comparable<ResearchPaper>, Serializable {
     public int              getPages()     { return pages; }
 
     public void setCitations(int citations) { this.citations = citations; }
+
+    // ---- Object ----
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ResearchPaper)) return false;
+        ResearchPaper rp = (ResearchPaper) o;
+        return doi.equals(rp.doi);
+    }
+
+    @Override
+    public int hashCode() {
+        return doi.hashCode();
+    }
 
     @Override
     public String toString() {

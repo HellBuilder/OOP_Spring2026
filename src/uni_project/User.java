@@ -61,6 +61,19 @@ public abstract class User implements Serializable {
     public void setPassword(String password)   { this.password  = password; }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User u = (User) o;
+        return userId.equals(u.userId);
+    }
+
+    @Override
+    public int hashCode() {
+        return userId.hashCode();
+    }
+
+    @Override
     public String toString() {
         return getClass().getSimpleName()
                 + "[id=" + userId + ", " + firstName + " " + lastName + "]";

@@ -88,7 +88,7 @@ public class Student extends User implements Observer {
                 + teacher.getFirstName() + " → " + String.format("%.1f", rating));
     }
 
-    public void printPapers() {
+    public void printPapers(Comparator<ResearchPaper> c) {
         System.out.println(getFirstName() + " is not a researcher — no papers.");
     }
 
@@ -142,4 +142,27 @@ public class Student extends User implements Observer {
     public List<Course>      getEnrolledCourses() { return enrolledCourses; }
     public Map<Course, Mark> getMarks()           { return marks; }
     public Researcher        getSupervisor()      { return supervisor; }
+
+    // ================================================================
+    // Object
+    // ================================================================
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Student)) return false;
+        Student s = (Student) o;
+        return studentId.equals(s.studentId);
+    }
+
+    @Override
+    public int hashCode() {
+        return studentId.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Student[" + studentId + ", " + getFirstName() + " " + getLastName()
+                + ", year=" + year + ", major=" + major + "]";
+    }
 }

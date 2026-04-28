@@ -152,31 +152,31 @@ public class Main {
         System.out.println("\n====== 10. RESEARCH PAPERS ======");
 
         ResearchPaper p1 = new ResearchPaper(
-                "Deep Learning in NLP",
+                "P001", "Deep Learning in NLP",
                 Arrays.asList(drSmith, drKhan),
                 "IEEE Transactions", LocalDate.of(2020, 3, 15),
                 "10.1109/TNN.2020.001", 120, 14);
 
         ResearchPaper p2 = new ResearchPaper(
-                "Graph Algorithms Revisited",
+                "P002", "Graph Algorithms Revisited",
                 List.of(drSmith),
                 "ACM SIGALG", LocalDate.of(2021, 7, 22),
                 "10.1145/ACM.2021.002", 85, 10);
 
         ResearchPaper p3 = new ResearchPaper(
-                "Quantum Computing Primer",
+                "P003", "Quantum Computing Primer",
                 List.of(drKhan),
                 "Nature CS", LocalDate.of(2019, 11, 1),
                 "10.1038/NCS.2019.003", 200, 22);
 
         ResearchPaper p4 = new ResearchPaper(
-                "OOP Patterns in Modern Java",
+                "P004", "OOP Patterns in Modern Java",
                 Arrays.asList(drSmith, carol),
                 "J. Software Eng.", LocalDate.of(2022, 1, 10),
                 "10.1234/JSE.2022.004", 45, 8);
 
         ResearchPaper p5 = new ResearchPaper(
-                "Security in Distributed Systems",
+                "P005", "Security in Distributed Systems",
                 List.of(drSmith),
                 "IEEE S&P", LocalDate.of(2023, 5, 5),
                 "10.1109/SP.2023.005", 30, 12);
@@ -189,9 +189,9 @@ public class Main {
         drKhan.addPaper(p3);
         carol.addPaper(p4);
 
-        drSmith.printPapers();
-        drKhan.printPapers();
-        carol.printPapers();
+        drSmith.printPapers(ResearchPaper.BY_CITATIONS);
+        drKhan.printPapers(ResearchPaper.BY_DATE);
+        carol.printPapers(ResearchPaper.BY_PAGES);
 
         System.out.println("drSmith hIndex = " + drSmith.getHIndex());
         System.out.println("drKhan  hIndex = " + drKhan.getHIndex());
@@ -260,7 +260,7 @@ public class Main {
         // 14. UNIVERSITY ANALYTICS
         // ============================================================
         System.out.println("\n====== 14. UNIVERSITY ANALYTICS ======");
-        uni.printAllPapers();
+        uni.printAllPapers(ResearchPaper.BY_CITATIONS);
         System.out.println("Top cited researcher:");
         uni.getTopCitedResearcher();
 
