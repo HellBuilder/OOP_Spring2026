@@ -13,6 +13,7 @@ public class Course implements Serializable {
     private int            credits;
     private List<Teacher>  instructors;
     private List<Student>  enrolledStudents;
+    private List<Lesson>   lessons;
     private Major          major;
     private int            yearOfStudy;
 
@@ -25,6 +26,7 @@ public class Course implements Serializable {
         this.yearOfStudy      = yearOfStudy;
         this.instructors      = new ArrayList<>();
         this.enrolledStudents = new ArrayList<>();
+        this.lessons          = new ArrayList<>();
     }
 
     public void enrollStudent(Student student) {
@@ -39,6 +41,21 @@ public class Course implements Serializable {
         }
     }
 
+    public void addLesson(Lesson lesson) {
+        if (!lessons.contains(lesson)) {
+            lessons.add(lesson);
+        }
+    }
+
+    public void printSchedule() {
+        System.out.println("=== Schedule: " + name + " ===");
+        if (lessons.isEmpty()) {
+            System.out.println("  (no lessons scheduled)");
+        } else {
+            lessons.forEach(l -> System.out.println("  " + l));
+        }
+    }
+
     // ---- Getters ----
 
     public String        getCourseId()          { return courseId; }
@@ -46,8 +63,21 @@ public class Course implements Serializable {
     public int           getCredits()           { return credits; }
     public List<Teacher> getInstructors()       { return instructors; }
     public List<Student> getEnrolledStudents()  { return enrolledStudents; }
+    public List<Lesson>  getLessons()           { return lessons; }
     public Major         getMajor()             { return major; }
     public int           getYearOfStudy()       { return yearOfStudy; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Course)) return false;
+        return courseId.equals(((Course) o).courseId);
+    }
+
+    @Override
+    public int hashCode() {
+        return courseId != null ? courseId.hashCode() : 0;
+    }
 
     @Override
     public String toString() {

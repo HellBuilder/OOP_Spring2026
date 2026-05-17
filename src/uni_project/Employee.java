@@ -23,6 +23,15 @@ public abstract class Employee extends User {
         System.out.println("[MSG] " + getFirstName() + " → " + to.getFirstName() + ": " + msg);
     }
 
+    public void sendComplaint(Manager manager, String subject, String body) {
+        String complaint = "[COMPLAINT from " + getFirstName() + " " + getLastName()
+                + " (" + getClass().getSimpleName() + ")] "
+                + "Subject: " + subject + " | " + body;
+        manager.receiveMessage(complaint);
+        System.out.println("[COMPLAINT] " + getFirstName() + " → " + manager.getFirstName()
+                + " | " + subject);
+    }
+
     // ---- Getters ----
 
     public String getEmployeeId() { return employeeId; }

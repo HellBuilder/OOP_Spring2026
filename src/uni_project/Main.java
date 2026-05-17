@@ -37,7 +37,7 @@ public class Main {
 
         ResearchStudent carol = new ResearchStudent(
                 "S003", "Carol", "Zhao", "carol@uni.edu", "pass6",
-                "20-003", 3, Major.SE);
+                "20-003", 4, Major.SE);
 
         Manager dean = (Manager) UserFactory.createUser(
                 "MANAGER", "M001", "Dean", "Wilson", "dean@uni.edu", "pass7",
@@ -145,6 +145,7 @@ public class Main {
         alice.rateTeacher(msBrown, 3.8);
         bob.rateTeacher(drSmith, 5.0);
         System.out.printf("  drSmith avg rating: %.2f%n", drSmith.getRating());
+        System.out.printf("  msBrown avg rating: %.2f%n", msBrown.getRating());
 
         // ============================================================
         // 10. RESEARCH PAPERS — h-index calculation
@@ -201,16 +202,21 @@ public class Main {
         // 11. SUPERVISOR ASSIGNMENT
         // ============================================================
         System.out.println("\n====== 11. SUPERVISOR ASSIGNMENT ======");
+        // alice is year 2 — not allowed
         try {
-            // carol has hIndex=1 — too low
-            alice.setSupervisor(carol);
+            alice.setSupervisor(drSmith);
+        } catch (IllegalStateException | LowHIndexException e) {
+            System.out.println("[CAUGHT] " + e.getMessage());
+        }
+        // carol is year 4 — allowed, but low hIndex supervisor
+        try {
+            carol.setSupervisor(carol); // carol hIndex=1 — too low
         } catch (LowHIndexException e) {
             System.out.println("[CAUGHT LowHIndexException] " + e.getMessage());
         }
+        // carol year 4, drSmith hIndex=4 — OK
         try {
-            // drSmith has hIndex >= 3 — OK
-            alice.setSupervisor(drSmith);
-            carol.setSupervisor(drKhan);
+            carol.setSupervisor(drSmith);
         } catch (LowHIndexException e) {
             System.out.println("[EXCEPTION] " + e.getMessage());
         }
@@ -232,6 +238,13 @@ public class Main {
 
         project.publishPaper(p1);
         project.publishPaper(p4);
+        // p4 was not in drKhan's list before → auto-credited → hIndex updates
+        System.out.println("-- hIndex after project publications --");
+        System.out.println("  drSmith hIndex = " + drSmith.getHIndex());
+        System.out.println("  drKhan  hIndex = " + drKhan.getHIndex()
+                + "  (p4 auto-credited, was 2 before)");
+        System.out.println("  carol   hIndex = " + carol.getHIndex()
+                + "  (p1 auto-credited)");
         project.printSummary();
 
         // ============================================================
@@ -308,6 +321,109 @@ public class Main {
             System.out.println("[EXCEPTION] " + e.getMessage());
         }
 
+        // ============================================================
+        // 18. LESSON SCHEDULE
+        // ============================================================
+        System.out.println("\n====== 18. LESSON SCHEDULE ======");
+        Lesson l1 = new Lesson("L001", "OOP Lecture 1",  LessonType.LECTURE,  drSmith, "A101", "Monday",    "09:00");
+        Lesson l2 = new Lesson("L002", "OOP Practice 1", LessonType.PRACTICE, drSmith, "B205", "Wednesday", "11:00");
+        Lesson l3 = new Lesson("L003", "Algorithms Lec", LessonType.LECTURE,  msBrown, "A101", "Tuesday",   "10:00");
+        Lesson l4 = new Lesson("L004", "Algorithms Lab", LessonType.LAB,      msBrown, "C310", "Thursday",  "14:00");
+
+        oop.addLesson(l1);
+        oop.addLesson(l2);
+        algo.addLesson(l3);
+        algo.addLesson(l4);
+
+        oop.printSchedule();
+        algo.printSchedule();
+
+        // ============================================================
+        // 19. REGISTRATION REQUEST WORKFLOW (uses RequestStatus)
+        // ============================================================
+        System.out.println("\n====== 19. REGISTRATION REQUEST WORKFLOW ======");
+        Student newStudent = new Student(
+                "S100", "Ivan", "Petrov", "ivan@uni.edu", "pw99",
+                "21-100", 2, Major.CS);
+        sysAdmin.addUser(newStudent);
+
+        CourseRegistrationRequest req1 = dean.createRequest(newStudent, oop);
+        CourseRegistrationRequest req2 = dean.createRequest(newStudent, algo);
+
+        dean.viewRequests();
+
+        dean.approveRegistration(newStudent, oop);
+        dean.rejectRegistration(newStudent, algo, "Course is full");
+
+        dean.viewRequests();
+
+        try {
+            newStudent.registerForCourse(oop);
+        } catch (MaxCreditsExceededException | MaxFailsExceededException e) {
+            System.out.println("[EXCEPTION] " + e.getMessage());
+        }
+
+        // ============================================================
+        // 20. BUILDER PATTERN — ResearchPaper
+        // ============================================================
+        System.out.println("\n====== 20. BUILDER PATTERN (ResearchPaper) ======");
+        ResearchPaper p6 = new ResearchPaper.Builder()
+                .title("Machine Learning for Education")
+                .authors(java.util.Arrays.asList(drSmith, drKhan))
+                .journal("IEEE Edu Tech")
+                .date(LocalDate.of(2024, 4, 20))
+                .doi("10.1109/EduTech.2024.006")
+                .citations(55)
+                .pages(16)
+                .build();
+
+        System.out.println("Built paper: " + p6);
+        drSmith.addPaper(p6);
+        drKhan.addPaper(p6);
+        System.out.println("drSmith hIndex after p6 = " + drSmith.getHIndex());
+
+        // ============================================================
+        // 21. printPapers(Comparator c) — required Researcher method
+        // ============================================================
+        System.out.println("\n====== 21. printPapers(Comparator) ======");
+        System.out.println("-- drSmith papers by date --");
+        drSmith.printPapers(ResearchPaper.BY_DATE);
+
+        System.out.println("-- drSmith papers by pages (shortest first) --");
+        drSmith.printPapers(ResearchPaper.BY_PAGES);
+
+        System.out.println("-- drKhan papers by citations --");
+        drKhan.printPapers(ResearchPaper.BY_CITATIONS);
+
+        // ============================================================
+        // 22. SERIALIZATION
+        // ============================================================
+        // ============================================================
+        // 22. SEND COMPLAINT
+        // ============================================================
+        System.out.println("\n====== 22. SEND COMPLAINT ======");
+        drSmith.sendComplaint(dean, "Room booking issue", "Room A101 double-booked on Monday.");
+        msBrown.sendComplaint(dean, "Equipment missing", "Projector in B205 is broken.");
+        dean.viewInbox();
+
+        // ============================================================
+        // 23. MANAGER ANALYTICS
+        // ============================================================
+        System.out.println("\n====== 23. MANAGER ANALYTICS ======");
+        dean.generateStatisticalReport();
+        dean.viewStudentsByGpa();
+        dean.viewStudentsAlphabetically();
+        dean.viewTeachersAlphabetically();
+
+        // ============================================================
+        // 24. SERIALIZATION ======
+        // ============================================================
+        System.out.println("\n====== 24. SERIALIZATION ======");
+        uni.saveData("university_data.ser");
+        University.loadData("university_data.ser");
+        System.out.println("Users after reload: " + University.getInstance().getUsers().size());
+
         System.out.println("\n====== DONE ======");
     }
 }
+
