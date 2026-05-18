@@ -9,9 +9,8 @@ public interface Researcher {
     void addPaper(ResearchPaper paper);
     void printPapers();
 
-    /** Prints papers sorted by the given comparator. */
     default void printPapers(Comparator<ResearchPaper> c) {
         getPapers().stream().sorted(c)
-                   .forEach(p -> System.out.println("  • " + p));
+                   .forEach(p -> System.out.println("  * " + p));
     }
 }

@@ -56,16 +56,14 @@ public class Course implements Serializable {
         }
     }
 
-    // ---- Getters ----
-
-    public String        getCourseId()          { return courseId; }
-    public String        getName()              { return name; }
-    public int           getCredits()           { return credits; }
-    public List<Teacher> getInstructors()       { return instructors; }
-    public List<Student> getEnrolledStudents()  { return enrolledStudents; }
-    public List<Lesson>  getLessons()           { return lessons; }
-    public Major         getMajor()             { return major; }
-    public int           getYearOfStudy()       { return yearOfStudy; }
+    public String        getCourseId()         { return courseId; }
+    public String        getName()             { return name; }
+    public int           getCredits()          { return credits; }
+    public List<Teacher> getInstructors()      { return instructors; }
+    public List<Student> getEnrolledStudents() { return enrolledStudents; }
+    public List<Lesson>  getLessons()          { return lessons; }
+    public Major         getMajor()            { return major; }
+    public int           getYearOfStudy()      { return yearOfStudy; }
 
     @Override
     public boolean equals(Object o) {

@@ -18,10 +18,6 @@ public class ResearchEmployee extends Employee implements Researcher {
         this.papers = new ArrayList<>();
     }
 
-    // ================================================================
-    // Researcher — always implemented (ResearchEmployee is always a Researcher)
-    // ================================================================
-
     @Override
     public int getHIndex() { return hIndex; }
 
@@ -40,6 +36,6 @@ public class ResearchEmployee extends Employee implements Researcher {
                 + " (hIndex=" + hIndex + ") ===");
         papers.stream()
               .sorted(ResearchPaper.BY_CITATIONS)
-              .forEach(p -> System.out.println("  • " + p));
+              .forEach(p -> System.out.println("  * " + p));
     }
 }

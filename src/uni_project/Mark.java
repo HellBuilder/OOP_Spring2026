@@ -7,10 +7,9 @@ public class Mark implements Serializable {
     private static final long   serialVersionUID = 10L;
     private static final double PASS_THRESHOLD   = 50.0;
 
-    // Standard Kazakh university grading breakdown: 30 + 30 + 40 = 100
-    private double firstAttestation;   // max 30
-    private double secondAttestation;  // max 30
-    private double finalExam;          // max 40
+    private double firstAttestation;
+    private double secondAttestation;
+    private double finalExam;
 
     public Mark(double firstAttestation, double secondAttestation, double finalExam) {
         this.firstAttestation  = clamp(firstAttestation, 0, 30);

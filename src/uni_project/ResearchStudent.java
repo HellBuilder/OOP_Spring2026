@@ -3,10 +3,6 @@ package uni_project;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A Student who also conducts research.
- * Models the "Student (optional Researcher)" requirement.
- */
 public class ResearchStudent extends Student implements Researcher {
 
     private static final long serialVersionUID = 4L;
@@ -21,10 +17,6 @@ public class ResearchStudent extends Student implements Researcher {
         this.hIndex = 0;
         this.papers = new ArrayList<>();
     }
-
-    // ================================================================
-    // Researcher
-    // ================================================================
 
     @Override
     public int getHIndex() { return hIndex; }
@@ -43,6 +35,6 @@ public class ResearchStudent extends Student implements Researcher {
         System.out.println("=== Papers: " + getFirstName() + " " + getLastName() + " ===");
         papers.stream()
               .sorted(ResearchPaper.BY_CITATIONS)
-              .forEach(p -> System.out.println("  • " + p));
+              .forEach(p -> System.out.println("  * " + p));
     }
 }

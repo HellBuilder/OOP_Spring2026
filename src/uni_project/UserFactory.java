@@ -1,24 +1,9 @@
 package uni_project;
 
-/**
- * Factory — centralizes object creation so callers never invoke constructors directly.
- * New roles only require a new case here, not changes to calling code.
- */
 public class UserFactory {
 
     private UserFactory() {}
 
-    /**
-     * Creates a User by role name.
-     *
-     * Role       | Required extra args (in order)
-     * -----------|-----------------------------------------------
-     * STUDENT    | (String) studentId, (int) year, (Major) major
-     * TEACHER    | (String) employeeId, (String) dept, (double) salary, (TeacherTitle) title
-     * MANAGER    | (String) employeeId, (String) dept, (double) salary, (ManagerType) type
-     * ADMIN      | (String) employeeId, (String) dept, (double) salary, (String) logFile
-     * RESEARCHER | (String) employeeId, (String) dept, (double) salary
-     */
     public static User createUser(String role,
                                   String userId,
                                   String firstName,

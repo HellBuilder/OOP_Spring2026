@@ -20,10 +20,6 @@ public class Admin extends Employee {
         this.logs    = new ArrayList<>();
     }
 
-    // ================================================================
-    // CRUD on Users (delegates to the Singleton)
-    // ================================================================
-
     public void addUser(User user) {
         University.getInstance().addUser(user);
         log("ADD  | " + user.getClass().getSimpleName() + " id=" + user.getUserId());
@@ -36,8 +32,8 @@ public class Admin extends Employee {
 
     public void updateUser(User user, String field, String newValue) {
         switch (field.toLowerCase()) {
-            case "email":    user.setEmail(newValue);    break;
-            case "password": user.setPassword(newValue); break;
+            case "email":     user.setEmail(newValue);     break;
+            case "password":  user.setPassword(newValue);  break;
             case "firstname": user.setFirstName(newValue); break;
             case "lastname":  user.setLastName(newValue);  break;
             default:
@@ -51,8 +47,6 @@ public class Admin extends Employee {
         System.out.println("=== System Logs (" + logFile + ") ===");
         logs.forEach(l -> System.out.println("  " + l));
     }
-
-    // ================================================================
 
     private void log(String action) {
         String entry = "[" + LocalDateTime.now() + "] " + action;

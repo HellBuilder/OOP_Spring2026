@@ -20,7 +20,7 @@ public abstract class Employee extends User {
     public void sendMessage(User to, String msg) {
         String formatted = "From " + getFirstName() + " " + getLastName() + ": " + msg;
         to.receiveMessage(formatted);
-        System.out.println("[MSG] " + getFirstName() + " → " + to.getFirstName() + ": " + msg);
+        System.out.println("[MSG] " + getFirstName() + " -> " + to.getFirstName() + ": " + msg);
     }
 
     public void sendComplaint(Manager manager, String subject, String body) {
@@ -28,17 +28,13 @@ public abstract class Employee extends User {
                 + " (" + getClass().getSimpleName() + ")] "
                 + "Subject: " + subject + " | " + body;
         manager.receiveMessage(complaint);
-        System.out.println("[COMPLAINT] " + getFirstName() + " → " + manager.getFirstName()
+        System.out.println("[COMPLAINT] " + getFirstName() + " -> " + manager.getFirstName()
                 + " | " + subject);
     }
-
-    // ---- Getters ----
 
     public String getEmployeeId() { return employeeId; }
     public String getDepartment() { return department; }
     public double getSalary()     { return salary; }
-
-    // ---- Setters ----
 
     public void setDepartment(String department) { this.department = department; }
     public void setSalary(double salary)         { this.salary     = salary; }

@@ -8,10 +8,6 @@ final class ResearcherUtils {
 
     private ResearcherUtils() {}
 
-    /**
-     * Computes the h-index from a list of papers using the standard definition:
-     * the largest h such that h papers each have >= h citations.
-     */
     static int computeHIndex(List<ResearchPaper> papers) {
         List<Integer> citations = new ArrayList<>(papers.size());
         for (ResearchPaper p : papers) {
